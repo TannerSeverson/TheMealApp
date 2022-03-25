@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MealsTableViewCell" customModule="TheMealApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="K3h-sw-cpW">
+                        <rect key="frame" x="38" y="34" width="20" height="20"/>
+                    </activityIndicatorView>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fmu-GC-tvq">
+                        <rect key="frame" x="16" y="12" width="288" height="64"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iaq-V6-lxI">
+                                <rect key="frame" x="0.0" y="0.5" width="64" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="7Kq-jd-bQL"/>
+                                    <constraint firstAttribute="height" constant="64" id="Ua8-yU-QTV"/>
+                                    <constraint firstAttribute="width" secondItem="iaq-V6-lxI" secondAttribute="height" multiplier="1:1" id="VY3-qb-6JK"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="32m-Jb-AhZ">
+                                <rect key="frame" x="80" y="0.0" width="208" height="64"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="K3h-sw-cpW" firstAttribute="centerX" secondItem="iaq-V6-lxI" secondAttribute="centerX" id="4kw-xQ-yDu"/>
+                    <constraint firstAttribute="trailing" secondItem="Fmu-GC-tvq" secondAttribute="trailing" constant="16" id="JZs-aQ-sV2"/>
+                    <constraint firstAttribute="bottom" secondItem="Fmu-GC-tvq" secondAttribute="bottom" constant="12" id="PG1-6e-1T2"/>
+                    <constraint firstItem="Fmu-GC-tvq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Q8V-aw-iGB"/>
+                    <constraint firstItem="K3h-sw-cpW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cxy-gA-DcQ"/>
+                    <constraint firstItem="Fmu-GC-tvq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="wqx-M4-cO5"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="activityIndicator" destination="K3h-sw-cpW" id="OFC-GB-Ffy"/>
+                <outlet property="label" destination="32m-Jb-AhZ" id="Umq-uz-N7G"/>
+                <outlet property="thumbnailImageView" destination="iaq-V6-lxI" id="kcv-7A-Es1"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="122"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
+    </resources>
+</document>

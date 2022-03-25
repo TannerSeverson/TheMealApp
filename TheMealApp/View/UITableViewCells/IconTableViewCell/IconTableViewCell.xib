@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="57" id="2oj-V2-9iv" customClass="IconTableViewCell" customModule="TheMealApp">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2oj-V2-9iv" id="gg4-VE-uga">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="saa-NR-HFH">
+                        <rect key="frame" x="16" y="12" width="382" height="32"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="3bq-WB-9DC">
+                                <rect key="frame" x="0.0" y="0.5" width="32" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="32" id="H9B-cu-FoK"/>
+                                    <constraint firstAttribute="width" secondItem="3bq-WB-9DC" secondAttribute="height" multiplier="1:1" id="JOa-G4-Xck"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ls6-pO-cQo">
+                                <rect key="frame" x="48" y="0.0" width="334" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="saa-NR-HFH" secondAttribute="bottom" constant="12" id="9mt-8h-P9v"/>
+                    <constraint firstAttribute="trailing" secondItem="saa-NR-HFH" secondAttribute="trailing" constant="16" id="9r4-eA-xmJ"/>
+                    <constraint firstItem="saa-NR-HFH" firstAttribute="top" secondItem="gg4-VE-uga" secondAttribute="top" constant="12" id="L9X-HU-eyv"/>
+                    <constraint firstItem="saa-NR-HFH" firstAttribute="leading" secondItem="gg4-VE-uga" secondAttribute="leading" constant="16" id="v81-tB-ea0"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="iconImageView" destination="3bq-WB-9DC" id="zVH-MS-Za9"/>
+                <outlet property="label" destination="Ls6-pO-cQo" id="B2p-tf-XJw"/>
+            </connections>
+            <point key="canvasLocation" x="136.23188405797103" y="-24.107142857142858"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
+    </resources>
+</document>
