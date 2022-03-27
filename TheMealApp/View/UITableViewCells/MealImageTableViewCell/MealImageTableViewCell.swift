@@ -14,10 +14,10 @@ public extension MealImageTableViewCellProtocol {
     func registerMealImageTableViewCell(for tableView: UITableView) {
         tableView.register(UINib(nibName: MealImageTableViewCell.identifier, bundle: .main), forCellReuseIdentifier: MealImageTableViewCell.identifier)
     }
-    func configureMealImageTableViewCell(loadingState: AsynchronousImageLoadingState, tableView: UITableView, for indexPath: IndexPath) -> UITableViewCell {
+    func configureMealImageTableViewCell(tableView: UITableView, for indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MealImageTableViewCell.identifier, for: indexPath) as? MealImageTableViewCell
         else { fatalError(#function) }
-        cell.configure(loadingState: loadingState)
+        cell.configure()
         return cell
     }
     func updateLoadingState(cell: MealImageTableViewCell, loadingState: AsynchronousImageLoadingState) {
@@ -25,12 +25,12 @@ public extension MealImageTableViewCellProtocol {
     }
 }
 
-public final class MealImageTableViewCell: UITableViewCell {
+public final class MealImageTableViewCell: UITableViewCell, AsynchronousImageLoadingProtocol {
     
     @IBOutlet weak var mealImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    
+    var url: URL?
     var loadingState: AsynchronousImageLoadingState = .notLoading {
         didSet {
             switch loadingState {
@@ -40,7 +40,8 @@ public final class MealImageTableViewCell: UITableViewCell {
                 case .loading:
                     mealImageView.alpha = 0.1
                     activityIndicator.startAnimating()
-                case let .loaded(image):
+                case let .loaded(image, url):
+                    guard url == url else { break }
                     mealImageView.alpha = 1
                     mealImageView.image = image
                     activityIndicator.stopAnimating()
@@ -74,8 +75,8 @@ public final class MealImageTableViewCell: UITableViewCell {
         activityIndicator.center = self.mealImageView.center
     }
     
-    fileprivate func configure(loadingState: AsynchronousImageLoadingState) {
-        self.loadingState = loadingState
+    fileprivate func configure() {
+        self.loadingState = .loading
     }
     
 }

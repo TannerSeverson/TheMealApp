@@ -8,6 +8,7 @@
 import UIKit
 
 protocol DetailTableViewControllerProtocol:
+    AsynchronousImageLoadingProtocol,
     IconTableViewCellProtocol,
     InstructionsTableViewCellProtocol,
     HeaderTableViewCellProtocol,
@@ -29,8 +30,7 @@ extension DetailTableViewControllerProtocol {
 final class DetailTableViewController:
     UITableViewController,
     DetailTableViewControllerProtocol,
-    SectionIdentifierProtocol,
-    NetworkingMealManagerDelegate
+    SectionIdentifierProtocol
 {
     
     // MARK: Sections:
@@ -40,9 +40,7 @@ final class DetailTableViewController:
         case ingredients
     }
     
-    var mealID: String!
-    
-    var mealManager = MealManager()
+    var status: NetworkingStatus = .loading
     var meal: RenderableMeal? {
         didSet {
             isIngredentSelected = Array(repeating: false, count:  meal?.ingredients.count ?? 0)
@@ -56,13 +54,29 @@ final class DetailTableViewController:
         // Cells:
         registerTableViewCellsForDetailTableViewControllerProtocol(for: self.tableView)
         
-        // Setup:
-        mealManager.delegate = self
-        mealManager.fetchMeal(from: mealID)
-        
         // TableView:
         tableView.separatorStyle = .none
     }
+    
+    func fetchMeal(from id: String) {
+        let endpoint = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
+        decodeDataFromJSON(url: endpoint + id, to: MealsByID.self) { result in
+            
+            switch result {
+                case .success(let value):
+                    switch value {
+                        case .response(let meals):
+                            self.meal = meals.meals[0].createRenderableMeal()
+                            self.status = .loaded
+                            self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+                    self.status = .failed
+            }
+        }
+    }
+    
     
     // MARK: - Table View
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -82,11 +96,18 @@ final class DetailTableViewController:
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let meal = meal else {
-            let label = "There was an issue making this meal!"
-            return configureIconTableViewCell(label: label, showDisclosure: false, icon: .appleCore, tintColor: .systemRed, tableView: self.tableView, for: indexPath)
-            // Add more error handling later
-            // Including a changing the inital load to a loading indicator, and only rendering this failure message if the network request actually failed and isn't loading.
+        guard
+            let meal = meal,
+            status == .loaded
+        else {
+            switch status {
+                case .loading:
+                    let label = "Loading..."
+                    return configureIconTableViewCell(label: label, showDisclosure: false, icon: .bacon, tintColor: .accentColor, tableView: self.tableView, for: indexPath)
+                default:
+                    let label = "There was an issue making this meal!"
+                    return configureIconTableViewCell(label: label, showDisclosure: false, icon: .appleCore, tintColor: .systemRed, tableView: self.tableView, for: indexPath)
+            }
         }
         
         switch sectionIdentifierFor(indexPath.section) {
@@ -96,13 +117,9 @@ final class DetailTableViewController:
                         let label = meal.name
                         return configureHeaderTableViewCell(label: label, textColor: nil, icon: nil, tintColor: nil, isSelectable: false, tableView: self.tableView, for: indexPath)
                     case 1:
-                        guard
-                            let imageURL = meal.imageURL,
-                            let url = URL(string: imageURL) else {
-                                return configureMealImageTableViewCell(loadingState: .error, tableView: self.tableView, for: indexPath)
-                            }
-                        mealManager.asyncImageLoad(from: url, for: indexPath)
-                        return configureMealImageTableViewCell(loadingState: .loading, tableView: self.tableView, for: indexPath)
+                        let url = meal.imageURL
+                        asynchronousLoadImage(from: url, for: indexPath)
+                        return configureMealImageTableViewCell(tableView: self.tableView, for: indexPath)
                     default:
                         break
                 }
@@ -131,9 +148,11 @@ final class DetailTableViewController:
         fatalError("There should not be a `UITableViewCell` at `indexPath` \(indexPath)")
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
+        
+        guard status == .loaded else { return }
+        
         switch sectionIdentifierFor(indexPath.section) {
             case .titleAndImage: break
             case .instructions: break
@@ -151,29 +170,17 @@ final class DetailTableViewController:
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    
-    // MARK: MealManagerDelegate
-    func asynchronousImageLoadingStateChanged(loadingState: AsynchronousImageLoadingState, for indexPath: IndexPath) {
-        switch sectionIdentifierFor(indexPath.section) {
-            case .titleAndImage:
-                switch indexPath.row {
-                    case 1:
-                        guard let cell = tableView.cellForRow(at: indexPath) as? MealImageTableViewCell else { return }
-                        updateLoadingState(cell: cell, loadingState: loadingState)
-                    default: return
-                }
-            default: return
+    func asynchronousLoadImage(from url: String?, for indexPath: IndexPath) {
+        asyncImageLoad(from: url) { result in
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? MealImageTableViewCell else { return }
+            switch result {
+                case .success(let loadingState):
+                    self.updateLoadingState(cell: cell, loadingState: loadingState)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.updateLoadingState(cell: cell, loadingState: .error(error.localizedDescription))
+            }
         }
-    }
-    
-    
-    func didUpdateMealsInCategory(meals: [MealsInCategory]) {
-        fatalError(String(describing: type(of: self)) + "Should not implmenet this method. Refactor protocols in future.")
-    }
-    
-    func didUpdateRenderableMeal(meal: RenderableMeal?) {
-        self.meal = meal
-        tableView.reloadData()
     }
     
 }

@@ -16,10 +16,10 @@ public extension MealsTableViewCellProtocol {
     func registerMealsTableViewCell(for tableView: UITableView) {
         tableView.register(UINib(nibName: MealsTableViewCell.identifier, bundle: .main), forCellReuseIdentifier: MealsTableViewCell.identifier)
     }
-    func configureMealsTableViewCell(label: String, loadingState: AsynchronousImageLoadingState, tableView: UITableView, for indexPath: IndexPath) -> UITableViewCell {
+    func configureMealsTableViewCell(label: String, tableView: UITableView, for indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MealsTableViewCell.identifier, for: indexPath) as? MealsTableViewCell
         else { fatalError(#function) }
-        cell.configure(label: label, loadingState: loadingState)
+        cell.configure(label: label)
         return cell
     }
     func updateLoadingState(cell: MealsTableViewCell, loadingState: AsynchronousImageLoadingState) {
@@ -27,7 +27,7 @@ public extension MealsTableViewCellProtocol {
     }
 }
 
-public final class MealsTableViewCell: UITableViewCell {
+public final class MealsTableViewCell: UITableViewCell, AsynchronousImageLoadingProtocol {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -44,7 +44,8 @@ public final class MealsTableViewCell: UITableViewCell {
                     thumbnailImageView.image = nil
                     thumbnailImageView.alpha = 0.1
                     activityIndicator.startAnimating()
-                case let .loaded(image):
+                case let .loaded(image, url):
+                    guard url == url else { break }
                     thumbnailImageView.alpha = 1
                     thumbnailImageView.image = image
                     activityIndicator.stopAnimating()
@@ -63,10 +64,10 @@ public final class MealsTableViewCell: UITableViewCell {
         thumbnailImageView.layer.cornerRadius = 5
     }
     
-    fileprivate func configure(label: String, loadingState: AsynchronousImageLoadingState) {
+    fileprivate func configure(label: String) {
         setAccessoryType(with: true)
         self.label.text = label
-        self.loadingState = loadingState
+        self.loadingState = .loading
     }
     
 }
