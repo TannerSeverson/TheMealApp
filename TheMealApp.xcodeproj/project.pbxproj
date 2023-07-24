@@ -137,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				C3213F0E2A6E2EF6006D8800 /* TheMealApp */,
+				C3213F8B2A6E36E1006D8800 /* README.md */,
 				C3213F6C2A6E35EE006D8800 /* TheMealAppTests */,
 				C3213F792A6E35F5006D8800 /* TheMealAppUITests */,
 				C3213F0D2A6E2EF6006D8800 /* Products */,
@@ -163,7 +164,6 @@
 				C3213F302A6E30F4006D8800 /* Model */,
 				C3213F312A6E30F9006D8800 /* Networking */,
 				C3213F132A6E2EF7006D8800 /* Assets.xcassets */,
-				C3213F8B2A6E36E1006D8800 /* README.md */,
 				C3213F162A6E2EF7006D8800 /* Preview Content */,
 				C34DB0AB2A6E4018009D9091 /* TheMealApp.xctestplan */,
 			);
