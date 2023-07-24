@@ -1,9 +1,4 @@
-//
-//  README.md
-//  TheMealApp
-//
-//
-//
+TheMealApp
 
 TAKE HOME - iOS Coding Challenge
 
