@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "91D31372-3D60-451A-95A4-FADC53AC9FBD",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TheMealApp.xcodeproj",
+        "identifier" : "C3213F6A2A6E35EE006D8800",
+        "name" : "TheMealAppTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:TheMealApp.xcodeproj",
+        "identifier" : "C3213F772A6E35F5006D8800",
+        "name" : "TheMealAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
